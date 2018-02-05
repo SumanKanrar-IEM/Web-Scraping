@@ -1,14 +1,10 @@
 import bs4 as bs
 import urllib.request
-sauce = urllib.request.urlopen('https://www.fundoodata.com/companies-detail/ITC-Ltd/31532.html').read()
+import re
+sauce = urllib.request.urlopen('https://www.fundoodata.com/citiesindustry/19/10/list-of-information-technology-(it)-companies-in-kolkata').read()
 soup = bs.BeautifulSoup(sauce, 'lxml')
 
-body = soup.body
-#print(body)
-
-for paragraph in body.find_all('p'):
-    print(paragraph.text)
-
-
-for div in soup.find_all('div', class_='body'):
-    print(div.text)
+links = soup.findAll('a', href=re.compile("\.html$"))
+for link in links:
+    if 'href' in link.attrs:
+        print(link.attrs['href'])
